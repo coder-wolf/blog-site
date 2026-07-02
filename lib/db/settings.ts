@@ -1,4 +1,4 @@
-import clientPromise from "./client";
+import getClient from "./client";
 
 export type SiteSettings = {
   blogTitle: string;
@@ -19,7 +19,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
 };
 
 function getCollection() {
-  return clientPromise.then((client) =>
+  return getClient().then((client) =>
     client.db("blog").collection<SiteSettings & { _id: string }>("settings")
   );
 }

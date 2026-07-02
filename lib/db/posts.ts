@@ -1,4 +1,4 @@
-import clientPromise from "./client";
+import getClient from "./client";
 import { ObjectId } from "mongodb";
 
 export type Post = {
@@ -17,7 +17,7 @@ export type Post = {
 };
 
 function getCollection() {
-  return clientPromise.then((client) =>
+  return getClient().then((client) =>
     client.db("blog").collection<Post>("posts")
   );
 }
