@@ -7,9 +7,12 @@ export default function BlogHome() {
   return (
     <>
       <section className="mb-16">
-        <div className="pb-8 border-b border-[#e5e5e5]">
-          <h1 className="text-3xl font-light text-[#1a1a1a] mb-2">Archive</h1>
-          <p className="text-sm text-[#666]">All articles published on The Journal.</p>
+        <div className="pb-8 border-b border-[#e5e5e5] flex items-end justify-between">
+          <div>
+            <h1 className="text-3xl font-light text-[#1a1a1a] mb-2">Archive</h1>
+            <p className="text-sm text-[#666]">All articles published on The Journal.</p>
+          </div>
+          <span className="text-[11px] font-mono text-[#ccc] shrink-0">03 / 04</span>
         </div>
       </section>
 

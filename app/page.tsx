@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts, formatDate } from "@/lib/posts";
 
 export default function Home() {
@@ -8,16 +9,21 @@ export default function Home() {
     <>
       {featured && (
         <section className="mb-20">
-          <div className="pb-8 border-b border-[#e5e5e5] mb-12">
+          <div className="pb-8 border-b border-[#e5e5e5] mb-12 flex items-end justify-between">
             <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-[#999]">
               Featured Story
             </span>
+            <span className="text-[11px] font-mono text-[#ccc]">01 / 04</span>
           </div>
           <Link href={`/blog/${featured.slug}`} className="group block">
-            <div className="h-[420px] bg-gradient-to-br from-[#f0f0f0] to-[#e0e0e0] mb-10 flex items-center justify-center">
-              <span className="text-6xl text-[#ccc] tracking-[0.3em] uppercase text-sm font-medium">
-                &nbsp;
-              </span>
+            <div className="h-[420px] relative overflow-hidden mb-10">
+              <Image
+                src={featured.imageUrl}
+                alt={featured.title}
+                fill
+                className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                sizes="(max-width: 1120px) 100vw, 1120px"
+              />
             </div>
             <div className="max-w-2xl">
               <div className="flex items-center gap-3 text-[13px] text-[#999] mb-4">
@@ -37,18 +43,25 @@ export default function Home() {
       )}
 
       <section>
-        <div className="pb-8 border-b border-[#e5e5e5] mb-12">
+        <div className="pb-8 border-b border-[#e5e5e5] mb-12 flex items-end justify-between">
           <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-[#999]">
             Latest Articles
           </span>
+          <span className="text-[11px] font-mono text-[#ccc]">02 / 04</span>
         </div>
         <div className="space-y-16">
           {rest.map((post) => (
             <article key={post.slug}>
               <Link href={`/blog/${post.slug}`} className="group block">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                  <div className="md:col-span-2">
-                    <div className="h-64 md:h-full min-h-[200px] bg-gradient-to-br from-[#f0f0f0] to-[#e0e0e0]" />
+                  <div className="md:col-span-2 relative h-64 md:h-full min-h-[200px] overflow-hidden">
+                    <Image
+                      src={post.imageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                    />
                   </div>
                   <div className="md:col-span-3 flex flex-col justify-center">
                     <div className="flex items-center gap-3 text-[13px] text-[#999] mb-3">
