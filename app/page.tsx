@@ -1,9 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getAllPosts, formatDate } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/db/posts";
 
-export default function Home() {
-  const [featured, ...rest] = getAllPosts();
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+}
+
+export default async function Home() {
+  const allPosts = await getPublishedPosts();
+  const [featured, ...rest] = allPosts;
 
   return (
     <>
@@ -13,7 +19,7 @@ export default function Home() {
             <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-[#999]">
               Featured Story
             </span>
-            <span className="text-[11px] font-mono text-[#ccc]">01 / 04</span>
+            <span className="text-[11px] font-mono text-[#ccc]">01 / {String(allPosts.length).padStart(2, "0")}</span>
           </div>
           <Link href={`/blog/${featured.slug}`} className="group block">
             <div className="h-[420px] relative overflow-hidden mb-10">
@@ -47,7 +53,7 @@ export default function Home() {
           <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-[#999]">
             Latest Articles
           </span>
-          <span className="text-[11px] font-mono text-[#ccc]">02 / 04</span>
+          <span className="text-[11px] font-mono text-[#ccc]">02 / {String(allPosts.length).padStart(2, "0")}</span>
         </div>
         <div className="space-y-16">
           {rest.map((post) => (

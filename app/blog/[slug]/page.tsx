@@ -2,11 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getPostBySlug, getAllSlugs, formatDate } from "@/lib/posts";
+import { getPostBySlug, getAllSlugs } from "@/lib/db/posts";
 import { ReadingProgress } from "./ReadingProgress";
 
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+}
+
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
   return {
     title: post.title,
@@ -29,11 +35,14 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
+
+  const allSlugs = await getAllSlugs();
+  const totalPosts = allSlugs.length;
 
   return (
     <>
@@ -52,7 +61,9 @@ export default async function BlogPostPage({
               <span>/</span>
               <span className="text-[#666] truncate">{post.title}</span>
             </nav>
-            <span className="text-[11px] font-mono text-[#ccc] shrink-0">04 / 04</span>
+            <span className="text-[11px] font-mono text-[#ccc] shrink-0">
+              04 / {String(totalPosts).padStart(2, "0")}
+            </span>
           </div>
 
           <div className="relative h-[400px] mb-10 overflow-hidden">

@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { getAllPosts, formatDate } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/db/posts";
 
-export default function BlogHome() {
-  const posts = getAllPosts();
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+}
+
+export default async function BlogHome() {
+  const posts = await getPublishedPosts();
 
   return (
     <>
@@ -12,7 +17,7 @@ export default function BlogHome() {
             <h1 className="text-3xl font-light text-[#1a1a1a] mb-2">Archive</h1>
             <p className="text-sm text-[#666]">All articles published on The Journal.</p>
           </div>
-          <span className="text-[11px] font-mono text-[#ccc] shrink-0">03 / 04</span>
+          <span className="text-[11px] font-mono text-[#ccc] shrink-0">03 / {String(posts.length).padStart(2, "0")}</span>
         </div>
       </section>
 

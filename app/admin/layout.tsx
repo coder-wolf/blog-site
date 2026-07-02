@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoutButton } from "./LogoutButton";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -38,6 +39,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 View Site
               </Link>
+              <span className="w-px bg-[#e5e5e5]" />
+              <LogoutButton />
             </nav>
           </div>
         </header>

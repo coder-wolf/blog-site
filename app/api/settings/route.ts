@@ -1,0 +1,13 @@
+import { NextResponse } from "next/server";
+import { getSettings, updateSettings } from "@/lib/db/settings";
+
+export async function GET() {
+  const settings = await getSettings();
+  return NextResponse.json(settings);
+}
+
+export async function PUT(req: Request) {
+  const body = await req.json();
+  const settings = await updateSettings(body);
+  return NextResponse.json(settings);
+}
