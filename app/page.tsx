@@ -10,7 +10,12 @@ function formatDate(dateString: string) {
 }
 
 export default async function Home() {
-  const allPosts = await getPublishedPosts();
+  let allPosts: Awaited<ReturnType<typeof getPublishedPosts>> = [];
+  try {
+    allPosts = await getPublishedPosts();
+  } catch (e) {
+    console.error("Failed to fetch posts:", e instanceof Error ? e.message : e);
+  }
   const [featured, ...rest] = allPosts;
 
   return (

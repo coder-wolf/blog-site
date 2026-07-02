@@ -9,7 +9,12 @@ function formatDate(dateString: string) {
 }
 
 export default async function BlogHome() {
-  const posts = await getPublishedPosts();
+  let posts: Awaited<ReturnType<typeof getPublishedPosts>> = [];
+  try {
+    posts = await getPublishedPosts();
+  } catch (e) {
+    console.error("Failed to fetch posts:", e instanceof Error ? e.message : e);
+  }
 
   return (
     <>
