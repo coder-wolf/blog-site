@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getPublishedPosts } from "@/lib/db/posts";
 
+export const dynamic = "force-dynamic";
+
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
